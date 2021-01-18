@@ -1,0 +1,7 @@
+README.txt
+setup.py
+vsearch.py
+vsearh.egg-info/PKG-INFO
+vsearh.egg-info/SOURCES.txt
+vsearh.egg-info/dependency_links.txt
+vsearh.egg-info/top_level.txt
