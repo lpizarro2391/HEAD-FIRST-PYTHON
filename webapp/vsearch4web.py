@@ -5,12 +5,10 @@ from vsearch import search4letters
 app = Flask('_hello_flask_')
 
 @app.route('/')
-
 def hello() -> str:
     return 'Hello World from Flask!'
 
-@app.route('/search4')
-
+@app.route('/search4',methods=['POST'])
 def do_search() -> str:
     return str(search4letters('life,the universe, and everthing eiry!'))
 
@@ -20,4 +18,4 @@ def entry_page() -> 'html':
                             the_title='Welcome to the search4letters on the web')
 
 
-app.run()
+app.run(debug=True)
