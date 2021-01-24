@@ -1,0 +1,3 @@
+ImmutableMultiDict([('phrase', 'hitchet-hiker'), ('letters', 'aeiou')])|127.0.0.1|Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36|{'i', 'e'}
+ImmutableMultiDict([('phrase', 'the life and the universo and everything'), ('letters', 'aeiou')])|127.0.0.1|Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36|{'i', 'e', 'u', 'a', 'o'}
+ImmutableMultiDict([('phrase', 'galaxy'), ('letters', 'xyz')])|127.0.0.1|Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36|{'y', 'x'}
