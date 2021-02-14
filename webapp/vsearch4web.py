@@ -12,25 +12,20 @@ def log_request(req: 'flask_request', res: str) -> None:
                 'user': 'vsearch',
                 'password': 'vsearchpasswd',
                 'database': 'vsearchlogDB', }
-    #importar labase de datos#
-    import mysql.connector
-    #crear, el driver , establecer la conexion con el servidor#
-    conn = mysql.connector.connect(**dbconfig)
-    #abrir un cursor, para enviar comandos al servidor y recibir resultados#
-    cursor = conn.cursor()
-    #crear un string que contiene el query que vamos a usar#
-    _SQL = """insert log
-        (phrase, letters, ip, browser_string, results)
-        values
-        (%s, %s, %s, %s, %s)"""
-    cursor.execute(_SQL, (req.form['phrase'],
-                        req.form['letters'],
-                        req.remote_addr,
-                        req.user_agent.browser,
-                        res, ))
-    conn.commit()
-    cursor.close()
-    conn.close()
+ #esta declaracion trabaja con la base de datos y regresa un cursor#
+    with UseDatabase(dbconfig) as cursor:
+        _SQL = """insert log
+            (phrase, letters, ip, browser_string, results)
+            values
+            (%s, %s, %s, %s, %s)"""
+        cursor.execute(_SQL, (req.form['phrase'],
+                            req.form['letters'],
+                            req.remote_addr,
+                            req.user_agent.browser,
+                            res, ))
+        conn.commit()
+        cursor.close()
+        conn.close()
 
 @app.route('/search4',methods=['POST'])
 def do_search() ->'html':
