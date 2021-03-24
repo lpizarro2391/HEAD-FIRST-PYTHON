@@ -1,7 +1,7 @@
 import mysql.connector
 from flask import Flask, render_template,request,escape
-
 from vsearch import search4letters
+from BDcm import UseDatabase
 
 app = Flask(__name__)
 
@@ -12,6 +12,10 @@ def log_request(req: 'flask_request', res: str) -> None:
                 'user': 'vsearch',
                 'password': 'vsearchpasswd',
                 'database': 'vsearchlogDB', }
+
+    conn = mysql.connector.connect(**dbconfig)
+    cursor = conn.cursor()
+    
  #esta declaracion trabaja con la base de datos y regresa un cursor#
     with UseDatabase(dbconfig) as cursor:
         _SQL = """insert log
