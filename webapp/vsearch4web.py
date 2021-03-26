@@ -1,19 +1,19 @@
 import mysql.connector
 from flask import Flask, render_template,request,escape
-
 from vsearch import search4letters
+from BDcm import UseDatabase
 
 app = Flask(__name__)
-
+#definir las caracteristicas de conexion#
+app.config['dbconfig'] = {'host': '127.0.0.1',
+                          'user': 'vsearch',
+                          'password': 'vsearchpasswd',
+                          'database': 'vsearchlogDB', }
 
 def log_request(req: 'flask_request', res: str) -> None:
-	#definir las caracteristicas de conexion#
-    dbconfig = {'host': '127.0.0.1',
-                'user': 'vsearch',
-                'password': 'vsearchpasswd',
-                'database': 'vsearchlogDB', }
+    #log details of the web request and the results.#
  #esta declaracion trabaja con la base de datos y regresa un cursor#
-    with UseDatabase(dbconfig) as cursor:
+    with UseDatabase(app.config['dbconfig']) as cursor:
         _SQL = """insert log
             (phrase, letters, ip, browser_string, results)
             values
@@ -23,9 +23,6 @@ def log_request(req: 'flask_request', res: str) -> None:
                             req.remote_addr,
                             req.user_agent.browser,
                             res, ))
-        conn.commit()
-        cursor.close()
-        conn.close()
 
 @app.route('/search4',methods=['POST'])
 def do_search() ->'html':
@@ -49,13 +46,13 @@ def entry_page() -> 'html':
 
 @app.route('/viewlog')
 def view_the_log() -> 'html':
-    contents= []
-    with open('vsearch.log') as log:
-        for line in log:
-            contents.append([])
-            for item in line.split('|'):
-                contents[-1].append(escape(item))
-    titles = ('Form Data','Remote_addr','User_agent','Results')
+    with UseDatabase(app.config['dbconfig']) as cursor:
+        _SQL= """select phrase, letters, ip, browser_string, results 
+                 from log"""
+        cursor.execute(_SQL)
+        contents = cursor.fetchall()
+
+    titles = ('Phrase','Letters','Remote_addr','User_agent','Results')
     return render_template('viewlog.html',
                             the_titles= 'View Log',
                             the_row_titles=titles,
