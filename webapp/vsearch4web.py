@@ -3,6 +3,7 @@ from flask import Flask, render_template,request,escape
 from vsearch import search4letters
 from BDcm import UseDatabase
 
+
 app = Flask(__name__)
 #definir las caracteristicas de conexion#
 app.config['dbconfig'] = {'host': '127.0.0.1',
@@ -57,4 +58,7 @@ def view_the_log() -> 'html':
                             the_titles= 'View Log',
                             the_row_titles=titles,
                             the_data=contents,)
-app.run(debug=True)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
